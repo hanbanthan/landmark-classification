@@ -13,7 +13,6 @@ env/
 .ipynb_checkpoints/
 
 # Downloaded dataset and generated training artifacts
-/landmark_images/train/
-/landmark_images/test/
+/landmark_images/
 /checkpoints/
 /mean_and_std.pt

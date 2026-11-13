@@ -16,7 +16,7 @@ def get_model_transfer_learning(model_name="resnet18", n_classes=50):
                          f"https://pytorch.org/vision/{torchvision_major_minor}/models.html")
         
     for param in model_transfer.parameters():
-        param.requires_grad = True
+        param.requires_grad = False
         
     num_ftrs = model_transfer.fc.in_features
     

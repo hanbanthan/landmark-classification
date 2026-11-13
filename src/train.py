@@ -37,11 +37,19 @@ def train_one_epoch(train_dataloader, model, optimizer, loss):
         
         optimizer.step()
         
+        predicted = output.argmax(dim=1)
+
+        total += target.size(0)
+        correct += (predicted == target).sum().item()
+
+        
         train_loss = train_loss + (
             (1 / (batch_idx + 1)) * (loss_value.data.item() - train_loss)
         )
     
-    return train_loss
+    train_accuracy = 100 * correct / total
+    
+    return train_loss, train_accuracy
 
 def valid_one_epoch(valid_dataloader, model, loss):
     """
@@ -71,9 +79,17 @@ def valid_one_epoch(valid_dataloader, model, loss):
             
             loss_value = loss(output, target)
             
+            predicted = output.argmax(dim=1)
+
+            total += target.size(0)
+            correct += (predicted == target).sum().item()
+
+            
             valid_loss = valid_loss + (
                 (1 / (batch_idx + 1)) * (loss_value.data.item() - valid_loss)
             )
+            
+    valid_accuracy = 100 * correct / total
         
     return valid_loss
 
@@ -91,18 +107,20 @@ def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interact
     
     for epoch in range(1, n_epochs + 1):
         
-        train_loss = train_one_epoch(
+        train_loss, train_acc = train_one_epoch(
             data_loaders["train"], model, optimizer, loss
         )
         
-        valid_loss = valid_one_epoch(data_loaders["valid"], model, loss)
+        valid_loss, valid_acc = valid_one_epoch(data_loaders["valid"], model, loss)
         
         print(
-            "Epoch: {} \tTraining Loss: {:.6f} \tValidation Loss: {:.6f}".format(
-                epoch, train_loss, valid_loss
-            )
+            f"Epoch: {epoch} "
+            f"Training Loss: {train_loss:.4f} "
+            f"Training Accuracy: {train_acc:.2f}% "
+            f"Validation Loss: {valid_loss:.4f} "
+            f"Validation Accuracy: {valid_acc:.2f}%"
         )
-        
+                
         if valid_loss_min is None or (
             (valid_loss_min - valid_loss) / valid_loss_min > 0.01
         ):

@@ -42,7 +42,7 @@ def test_get_model_transfer_learning(data_loaders):
     model = get_model_transfer_learning(n_classes=23)
 
     dataiter = iter(data_loaders["train"])
-    images, labels = dataiter.next()
+    images, labels = next(dataiter)
 
     out = model(images)
 

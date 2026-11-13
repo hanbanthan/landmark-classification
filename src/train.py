@@ -15,7 +15,9 @@ def train_one_epoch(train_dataloader, model, optimizer, loss):
     if torch.cuda.is_available():
         model = model.cuda()
         
-    train_loss = 0
+    train_loss = 0.0
+    correct = 0
+    total = 0
     
     for batch_idx, (data, target) in tqdm(
         enumerate(train_dataloader),
@@ -64,6 +66,8 @@ def valid_one_epoch(valid_dataloader, model, loss):
             model.cuda()
             
         valid_loss = 0.0
+        correct = 0
+        total = 0
         
         for batch_idx, (data, target) in tqdm(
             enumerate(valid_dataloader),

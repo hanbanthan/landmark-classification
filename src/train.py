@@ -139,6 +139,8 @@ def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interact
         if interactive_tracking:
             logs["loss"] = train_loss
             logs["val_loss"] = valid_loss
+            logs["train_accuracy"] = train_acc
+            logs["val_accuracy"] = valid_acc
             logs["lr"] = optimizer.param_groups[0]["lr"]
 
             liveloss.update(logs)

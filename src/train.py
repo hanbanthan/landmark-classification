@@ -95,7 +95,7 @@ def valid_one_epoch(valid_dataloader, model, loss):
             
     valid_accuracy = 100 * correct / total
         
-    return valid_loss
+    return valid_loss, valid_accuracy
 
 def optimize(data_loaders, model, optimizer, loss, n_epochs, save_path, interactive_tracking=False):
     # initialize tracker for minimum validation loss
